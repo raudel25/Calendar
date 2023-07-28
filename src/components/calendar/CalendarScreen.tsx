@@ -10,6 +10,8 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { CalendarEvent, MyEvent } from "./CalendarEvent";
 import { useState } from "react";
 import { CalendarModal } from "./CalendarModal";
+import { useAppDispatch } from "../../store/store";
+import { openModalAct } from "../../actions/ui";
 
 const localizer = momentLocalizer(moment);
 
@@ -50,7 +52,11 @@ export const CalendarScreen = () => {
     };
   };
 
-  const onDobleClick = (event: MyEvent) => {};
+  const dispatch = useAppDispatch();
+
+  const onDobleClick = (event: MyEvent) => {
+    dispatch(openModalAct());
+  };
 
   const onSelected = (event: MyEvent) => {};
 

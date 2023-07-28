@@ -1,10 +1,13 @@
 import Modal from "react-modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import { useForm } from "../../hooks/useForm";
 import Swal from "sweetalert2";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../../store/store";
+import { closeModalAct } from "../../actions/ui";
 
 const customStyles = {
   content: {
@@ -20,9 +23,13 @@ const customStyles = {
 Modal.setAppElement("#root");
 
 export const CalendarModal = () => {
+  const dispatch = useAppDispatch();
+
   const closeModal = () => {
-    // TODO: cerrar modal
+    dispatch(closeModalAct());
   };
+
+  const openModal = useSelector((states: RootState) => states.ui).openModal;
 
   const now = moment().minutes(0).seconds(0).add(1, "hours");
 
@@ -63,7 +70,7 @@ export const CalendarModal = () => {
 
   return (
     <Modal
-      isOpen={true}
+      isOpen={openModal}
       onRequestClose={closeModal}
       style={customStyles}
       closeTimeoutMS={200}
