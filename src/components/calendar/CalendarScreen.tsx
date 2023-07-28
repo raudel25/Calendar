@@ -9,6 +9,7 @@ import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { CalendarEvent, MyEvent } from "./CalendarEvent";
 import { useState } from "react";
+import { CalendarModal } from "./CalendarModal";
 
 const localizer = momentLocalizer(moment);
 
@@ -74,6 +75,8 @@ export const CalendarScreen = () => {
         onSelectEvent={onSelected}
         onView={onViewChange}
       />
+
+      <CalendarModal />
     </div>
   );
 };
