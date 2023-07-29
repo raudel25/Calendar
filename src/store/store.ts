@@ -2,11 +2,12 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
 import { useDispatch } from "react-redux";
 import { uiReducer } from "../reducers/uiReducer";
+import { calendarReducer } from "../reducers/calendarReducer";
 
 const reducer = combineReducers({
   ui: uiReducer,
+  calendar: calendarReducer,
   // TODO: authReducer
-  // TODO: calendarReducer
 });
 
 export const store = configureStore({

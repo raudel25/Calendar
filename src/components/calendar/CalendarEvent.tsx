@@ -1,13 +1,5 @@
 import { EventProps } from "react-big-calendar";
-
-export interface MyEvent {
-  title: string;
-  allDay?: boolean;
-  start: Date;
-  end: Date;
-  isImportant?: boolean;
-  bgcolor: string;
-}
+import { MyEvent } from "../../types/types";
 
 export const CalendarEvent: React.FC<EventProps<MyEvent>> = ({ event }) => {
   const { title } = event;

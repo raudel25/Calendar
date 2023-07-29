@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../store/store";
 import { closeModalAct } from "../../actions/ui";
+import { addEvent } from "../../actions/events";
 
 const customStyles = {
   content: {
@@ -60,6 +61,8 @@ export const CalendarModal = () => {
       return;
     }
     // TODO: realizar grabacion
+
+    dispatch(addEvent({ title: title, start: startDate, end: endDate }));
     setValidTitle(true);
     closeModal();
   };

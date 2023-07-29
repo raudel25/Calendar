@@ -54,3 +54,12 @@ body {
 .react-datepicker-wrapper {
   width: 100%;
 }
+
+.fab {
+  border-radius: 100%;
+  bottom: 20px;
+  padding: 25px;
+  font-size: 25px;
+  position: fixed;
+  right: 20px;
+}

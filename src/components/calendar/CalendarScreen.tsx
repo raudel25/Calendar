@@ -7,11 +7,14 @@ import {
 } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { CalendarEvent, MyEvent } from "./CalendarEvent";
+import { CalendarEvent } from "./CalendarEvent";
+import { MyEvent } from "../../types/types";
 import { useState } from "react";
 import { CalendarModal } from "./CalendarModal";
 import { useAppDispatch } from "../../store/store";
 import { openModalAct } from "../../actions/ui";
+import { setActiveEvent } from "../../actions/events";
+import { AddNewFab } from "../ui/AddNewFab";
 
 const localizer = momentLocalizer(moment);
 
@@ -20,7 +23,6 @@ const events: Array<MyEvent> = [
     title: "AA",
     start: moment().toDate(),
     end: moment().add(2, "hours").toDate(),
-    bgcolor: "#fafafa",
   },
 ];
 
@@ -58,7 +60,10 @@ export const CalendarScreen = () => {
     dispatch(openModalAct());
   };
 
-  const onSelected = (event: MyEvent) => {};
+  const onSelected = (event: MyEvent) => {
+    dispatch(setActiveEvent(event));
+    dispatch(openModalAct());
+  };
 
   const onViewChange = (lastView: View) => {
     localStorage.setItem("lastView", lastView);
@@ -81,6 +86,8 @@ export const CalendarScreen = () => {
         onSelectEvent={onSelected}
         onView={onViewChange}
       />
+
+      <AddNewFab />
 
       <CalendarModal />
     </div>
