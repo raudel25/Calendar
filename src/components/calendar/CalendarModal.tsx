@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../store/store";
 import { closeModalAct } from "../../actions/ui";
-import { addEvent, updatedEvent } from "../../actions/events";
+import { addEvent, clearActiveEvent, updatedEvent } from "../../actions/events";
 
 const customStyles = {
   content: {
@@ -46,11 +46,16 @@ export const CalendarModal = () => {
       resetForm({ title: active.title, notes: active.notes });
       setStartDate(new Date(active.start));
       setEndDate(new Date(active.end));
+    } else {
+      resetForm({ title: "", notes: "" });
+      setStartDate(now.toDate());
+      setEndDate(now.add(1, "hours").toDate());
     }
   }, [active]);
 
   const closeModal = () => {
     resetForm({ title: "", notes: "" });
+    dispatch(clearActiveEvent());
     dispatch(closeModalAct());
   };
 

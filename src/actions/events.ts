@@ -19,3 +19,8 @@ export const updatedEvent = (event: MyEvent): EventAction => ({
   type: types.eventUpdated,
   payload: event,
 });
+
+export const deleteEvent = (): EventAction => ({
+  type: types.eventDelete,
+  payload: null,
+});

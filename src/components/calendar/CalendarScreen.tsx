@@ -16,6 +16,7 @@ import { openModalAct } from "../../actions/ui";
 import { setActiveEvent } from "../../actions/events";
 import { AddNewFab } from "../ui/AddNewFab";
 import { useSelector } from "react-redux";
+import { DeleteEventFab } from "../ui/DeleteEventFab";
 
 const localizer = momentLocalizer(moment);
 
@@ -57,7 +58,7 @@ export const CalendarScreen = () => {
 
   const dispatch = useAppDispatch();
 
-  const { events } = useSelector((state: RootState) => state.calendar);
+  const { events, active } = useSelector((state: RootState) => state.calendar);
 
   const onDobleClick = (event: MyEvent) => {
     dispatch(openModalAct());
@@ -90,6 +91,8 @@ export const CalendarScreen = () => {
       />
 
       <AddNewFab />
+
+      {active && <DeleteEventFab />}
 
       <CalendarModal />
     </div>
