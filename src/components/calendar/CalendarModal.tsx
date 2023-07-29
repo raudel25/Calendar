@@ -51,7 +51,7 @@ export const CalendarModal = () => {
       setStartDate(now.toDate());
       setEndDate(now.add(1, "hours").toDate());
     }
-  }, [active]);
+  }, [active, now, resetForm]);
 
   const closeModal = () => {
     resetForm({ title: "", notes: "" });
@@ -117,11 +117,11 @@ export const CalendarModal = () => {
       className="modal"
       overlayClassName="modal-fondo"
     >
-      <h1> Nuevo evento </h1>
+      <h1> {active ? "Edit Event" : "New Event"} </h1>
       <hr />
       <form className="container" onSubmit={handleSubmit}>
         <div className="form-group mb-2">
-          <label>Fecha y hora inicio</label>
+          <label>Start date and time</label>
           <div>
             <DatePicker
               selected={startDate}
@@ -138,7 +138,7 @@ export const CalendarModal = () => {
         </div>
 
         <div className="form-group mb-2">
-          <label>Fecha y hora fin</label>
+          <label>End date and time</label>
           <div>
             <DatePicker
               selected={endDate}
@@ -158,38 +158,38 @@ export const CalendarModal = () => {
 
         <hr />
         <div className="form-group mb-2">
-          <label>Titulo y notas</label>
+          <label>Title and notes</label>
           <input
             type="text"
             className={`form-control ${!validTitle && "is-invalid"}`}
-            placeholder="Título del evento"
+            placeholder="Event title"
             name="title"
             onChange={handleInputChange}
             value={title}
             autoComplete="off"
           />
           <small id="emailHelp" className="form-text text-muted">
-            Una descripción corta
+            A short description
           </small>
         </div>
 
         <div className="form-group mb-2">
           <textarea
             className="form-control"
-            placeholder="Notas"
+            placeholder="Notes"
             rows={5}
             name="notes"
             value={notes}
             onChange={handleInputChange}
           ></textarea>
           <small id="emailHelp" className="form-text text-muted">
-            Información adicional
+            Additional information
           </small>
         </div>
 
         <button type="submit" className="btn btn-outline-primary btn-block">
           <i className="far fa-save"></i>
-          <span> Guardar</span>
+          <span> Save</span>
         </button>
       </form>
     </Modal>

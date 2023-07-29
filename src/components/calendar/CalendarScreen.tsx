@@ -13,7 +13,7 @@ import { useState } from "react";
 import { CalendarModal } from "./CalendarModal";
 import { RootState, useAppDispatch } from "../../store/store";
 import { openModalAct } from "../../actions/ui";
-import { setActiveEvent } from "../../actions/events";
+import { clearActiveEvent, setActiveEvent } from "../../actions/events";
 import { AddNewFab } from "../ui/AddNewFab";
 import { useSelector } from "react-redux";
 import { DeleteEventFab } from "../ui/DeleteEventFab";
@@ -60,12 +60,16 @@ export const CalendarScreen = () => {
 
   const { events, active } = useSelector((state: RootState) => state.calendar);
 
-  const onDobleClick = (event: MyEvent) => {
+  const onDobleClick = () => {
     dispatch(openModalAct());
   };
 
   const onSelected = (event: MyEvent) => {
     dispatch(setActiveEvent(event));
+  };
+
+  const onSelectedSlot = () => {
+    dispatch(clearActiveEvent());
   };
 
   const onViewChange = (lastView: View) => {
@@ -88,6 +92,8 @@ export const CalendarScreen = () => {
         onDoubleClickEvent={onDobleClick}
         onSelectEvent={onSelected}
         onView={onViewChange}
+        onSelectSlot={onSelectedSlot}
+        selectable={true}
       />
 
       <AddNewFab />

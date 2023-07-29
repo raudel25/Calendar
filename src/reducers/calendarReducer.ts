@@ -13,7 +13,7 @@ export const calendarReducer = (
         active: action.payload,
       };
 
-    case types.eventSetActive:
+    case types.eventClearActive:
       return {
         ...state,
         active: null,
