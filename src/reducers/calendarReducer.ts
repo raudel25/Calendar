@@ -13,10 +13,24 @@ export const calendarReducer = (
         active: action.payload,
       };
 
+    case types.eventSetActive:
+      return {
+        ...state,
+        active: null,
+      };
+
     case types.eventAdd:
       return {
         ...state,
-        events: state.events.concat([action.payload]),
+        events: state.events.concat([action.payload!]),
+      };
+
+    case types.eventUpdated:
+      return {
+        ...state,
+        events: state.events.map((event) =>
+          event.id === action.payload!.id ? action.payload! : event
+        ),
       };
 
     default:

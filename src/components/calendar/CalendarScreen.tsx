@@ -11,20 +11,21 @@ import { CalendarEvent } from "./CalendarEvent";
 import { MyEvent } from "../../types/types";
 import { useState } from "react";
 import { CalendarModal } from "./CalendarModal";
-import { useAppDispatch } from "../../store/store";
+import { RootState, useAppDispatch } from "../../store/store";
 import { openModalAct } from "../../actions/ui";
 import { setActiveEvent } from "../../actions/events";
 import { AddNewFab } from "../ui/AddNewFab";
+import { useSelector } from "react-redux";
 
 const localizer = momentLocalizer(moment);
 
-const events: Array<MyEvent> = [
-  {
-    title: "AA",
-    start: moment().toDate(),
-    end: moment().add(2, "hours").toDate(),
-  },
-];
+// const events: Array<MyEvent> = [
+//   {
+//     title: "AA",
+//     start: moment().toDate(),
+//     end: moment().add(2, "hours").toDate(),
+//   },
+// ];
 
 export const CalendarScreen = () => {
   const [lastView, setLastView] = useState<View>(
@@ -56,13 +57,14 @@ export const CalendarScreen = () => {
 
   const dispatch = useAppDispatch();
 
+  const { events } = useSelector((state: RootState) => state.calendar);
+
   const onDobleClick = (event: MyEvent) => {
     dispatch(openModalAct());
   };
 
   const onSelected = (event: MyEvent) => {
     dispatch(setActiveEvent(event));
-    dispatch(openModalAct());
   };
 
   const onViewChange = (lastView: View) => {

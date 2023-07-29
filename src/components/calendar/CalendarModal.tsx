@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../store/store";
 import { closeModalAct } from "../../actions/ui";
-import { addEvent } from "../../actions/events";
+import { addEvent, updatedEvent } from "../../actions/events";
 
 const customStyles = {
   content: {
@@ -26,20 +26,33 @@ Modal.setAppElement("#root");
 export const CalendarModal = () => {
   const dispatch = useAppDispatch();
 
-  const closeModal = () => {
-    dispatch(closeModalAct());
-  };
-
   const openModal = useSelector((states: RootState) => states.ui).openModal;
+  const active = useSelector((state: RootState) => state.calendar).active;
 
   const now = moment().minutes(0).seconds(0).add(1, "hours");
 
   const [startDate, setStartDate] = useState<Date>(now.toDate());
   const [endDate, setEndDate] = useState<Date>(now.add(1, "hours").toDate());
-  const [formValues, handleInputChange] = useForm({ title: "", notes: "" });
+  const [formValues, handleInputChange, resetForm] = useForm({
+    title: "",
+    notes: "",
+  });
   const [validTitle, setValidTitle] = useState(true);
 
   const { title, notes } = formValues;
+
+  useEffect(() => {
+    if (active) {
+      resetForm({ title: active.title, notes: active.notes });
+      setStartDate(new Date(active.start));
+      setEndDate(new Date(active.end));
+    }
+  }, [active]);
+
+  const closeModal = () => {
+    resetForm({ title: "", notes: "" });
+    dispatch(closeModalAct());
+  };
 
   const handleStartDate = (date: Date) => setStartDate(date);
   const handleEndDate = (date: Date) => setEndDate(date);
@@ -62,7 +75,26 @@ export const CalendarModal = () => {
     }
     // TODO: realizar grabacion
 
-    dispatch(addEvent({ title: title, start: startDate, end: endDate }));
+    active
+      ? dispatch(
+          updatedEvent({
+            id: active.id,
+            title: title,
+            start: startDate.getTime(),
+            end: endDate.getTime(),
+            notes: notes,
+          })
+        )
+      : dispatch(
+          addEvent({
+            id: Date.now(),
+            title: title,
+            start: startDate.getTime(),
+            end: endDate.getTime(),
+            notes: notes,
+          })
+        );
+
     setValidTitle(true);
     closeModal();
   };
