@@ -14,7 +14,7 @@ export const authReducer = (
         name: action.payload.name!,
       };
 
-    case types.authLogin:
+    case types.authLogout:
       return {
         login: false,
       };

@@ -19,3 +19,31 @@ export const fetchNoToken = (
     });
   }
 };
+
+export const fetchWithToken = (
+  endpoint: string,
+  data: object,
+  method: string = "GET"
+): Promise<Response> => {
+  const url = `${baseUrl}/${endpoint}`;
+
+  const token = localStorage.getItem("token") || "";
+
+  if (method === "GET") {
+    return fetch(url, {
+      method,
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+  } else {
+    return fetch(url, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Barer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+  }
+};

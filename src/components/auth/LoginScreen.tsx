@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import { startLogin, startRegister } from "../../actions/auth";
 import { useForm } from "../../hooks/useForm";
 import { useAppDispatch } from "../../store/store";
@@ -24,11 +25,30 @@ export const LoginScreen = () => {
     event.preventDefault();
     dispatch(startLogin(inEmail, inPassword));
   };
+  const isValid = () => {
+    if (outName.trim().length === 0) {
+      Swal.fire("Error", "Name is requerid", "error");
+      return false;
+    }
+
+    if (outPassword !== outConfirm || outPassword.length < 5) {
+      Swal.fire(
+        "Error",
+        "Password should be at least 5 characters and match",
+        "error"
+      );
+      return false;
+    }
+
+    return true;
+  };
 
   const handleLogoutSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    dispatch(startRegister(outName,outEmail,outPassword));
+    if (isValid()) {
+      dispatch(startRegister(outName, outEmail, outPassword));
+    }
   };
 
   return (
