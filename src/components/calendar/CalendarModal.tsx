@@ -56,7 +56,7 @@ export const CalendarModal = () => {
       setEndDate(now.add(1, "hours").toDate());
       setLastActive(active);
     }
-  }, [active, now, reset]);
+  }, [active, now, reset, lastActive]);
 
   const closeModal = () => {
     reset({ title: "", notes: "" });

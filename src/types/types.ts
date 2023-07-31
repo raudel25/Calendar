@@ -1,4 +1,7 @@
 export const types = {
+  authLogin: "[Auth] Login",
+  authLogout: "[Auth] Logout",
+
   uiOpenModal: "[Ui] Open Modal",
   uiCloseModal: "[Ui] Close Modal",
 
@@ -26,3 +29,10 @@ export type EventAction = { type: string; payload: MyEvent | null };
 export type UiState = { openModal: boolean };
 
 export type UiAction = { type: string };
+
+export type AuthState = { login: boolean; id?: number; name?: string };
+
+export type AuthAction = {
+  type: string;
+  payload: { id?: number; name?: string };
+};
