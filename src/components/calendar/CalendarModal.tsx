@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../store/store";
 import { closeModalAct } from "../../actions/ui";
 import { addEvent, clearActiveEvent, updatedEvent } from "../../actions/events";
+import { MyEvent } from "../../types/types";
 
 const customStyles = {
   content: {
@@ -33,7 +34,7 @@ export const CalendarModal = () => {
 
   const [startDate, setStartDate] = useState<Date>(now.toDate());
   const [endDate, setEndDate] = useState<Date>(now.add(1, "hours").toDate());
-  const [formValues, handleInputChange, resetForm] = useForm({
+  const [formValues, handleInputChange, reset] = useForm({
     title: "",
     notes: "",
   });
@@ -41,20 +42,24 @@ export const CalendarModal = () => {
 
   const { title, notes } = formValues;
 
+  const [lastActive, setLastActive] = useState<MyEvent | null>(null);
+
   useEffect(() => {
-    if (active) {
-      resetForm({ title: active.title, notes: active.notes });
+    if (active && active !== lastActive) {
+      reset({ title: active.title, notes: active.notes });
       setStartDate(new Date(active.start));
       setEndDate(new Date(active.end));
-    } else {
-      resetForm({ title: "", notes: "" });
+      setLastActive(active);
+    } else if (!active && active !== lastActive) {
+      reset({ title: "", notes: "" });
       setStartDate(now.toDate());
       setEndDate(now.add(1, "hours").toDate());
+      setLastActive(active);
     }
-  }, [active, now, resetForm]);
+  }, [active, now, reset]);
 
   const closeModal = () => {
-    resetForm({ title: "", notes: "" });
+    reset({ title: "", notes: "" });
     dispatch(clearActiveEvent());
     dispatch(closeModalAct());
   };
