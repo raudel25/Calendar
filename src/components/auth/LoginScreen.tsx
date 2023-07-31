@@ -9,29 +9,29 @@ export const LoginScreen = () => {
     inEmail: "",
     inPassword: "",
   });
-  const [formLogout, handleInputLogout] = useForm({
-    outName: "",
-    outEmail: "",
-    outPassword: "",
-    outConfirm: "",
+  const [formRegister, handleInputRegister] = useForm({
+    registerName: "",
+    registerEmail: "",
+    registerPassword: "",
+    registerConfirm: "",
   });
 
   const dispatch = useAppDispatch();
 
   const { inEmail, inPassword } = formLogin;
-  const { outName, outEmail, outPassword, outConfirm } = formLogout;
+  const { registerName, registerEmail, registerPassword, registerConfirm } = formRegister;
 
   const handleLoginSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     dispatch(startLogin(inEmail, inPassword));
   };
   const isValid = () => {
-    if (outName.trim().length === 0) {
+    if (registerName.trim().length === 0) {
       Swal.fire("Error", "Name is requerid", "error");
       return false;
     }
 
-    if (outPassword !== outConfirm || outPassword.length < 5) {
+    if (registerPassword !== registerConfirm || registerPassword.length < 5) {
       Swal.fire(
         "Error",
         "Password should be at least 5 characters and match",
@@ -43,11 +43,11 @@ export const LoginScreen = () => {
     return true;
   };
 
-  const handleLogoutSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleRegisterSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (isValid()) {
-      dispatch(startRegister(outName, outEmail, outPassword));
+      dispatch(startRegister(registerName, registerEmail, registerPassword));
     }
   };
 
@@ -85,15 +85,15 @@ export const LoginScreen = () => {
 
         <div className="col-md-6 login-form-2">
           <h3>Register</h3>
-          <form onSubmit={handleLogoutSubmit}>
+          <form onSubmit={handleRegisterSubmit}>
             <div className="form-group mb-2">
               <input
                 type="text"
                 className="form-control"
                 placeholder="Name"
-                name="outName"
-                value={outName}
-                onChange={handleInputLogout}
+                name="registerName"
+                value={registerName}
+                onChange={handleInputRegister}
               />
             </div>
             <div className="form-group mb-2">
@@ -101,9 +101,9 @@ export const LoginScreen = () => {
                 type="email"
                 className="form-control"
                 placeholder="Email"
-                name="outEmail"
-                value={outEmail}
-                onChange={handleInputLogout}
+                name="registerEmail"
+                value={registerEmail}
+                onChange={handleInputRegister}
               />
             </div>
             <div className="form-group mb-2">
@@ -111,9 +111,9 @@ export const LoginScreen = () => {
                 type="password"
                 className="form-control"
                 placeholder="Password"
-                name="outPassword"
-                value={outPassword}
-                onChange={handleInputLogout}
+                name="registerPassword"
+                value={registerPassword}
+                onChange={handleInputRegister}
               />
             </div>
 
@@ -122,9 +122,9 @@ export const LoginScreen = () => {
                 type="password"
                 className="form-control"
                 placeholder="Confirm Password"
-                name="outConfirm"
-                value={outConfirm}
-                onChange={handleInputLogout}
+                name="registerConfirm"
+                value={registerConfirm}
+                onChange={handleInputRegister}
               />
             </div>
 
