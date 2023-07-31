@@ -1,4 +1,4 @@
-import { startLogin } from "../../actions/auth";
+import { startLogin, startRegister } from "../../actions/auth";
 import { useForm } from "../../hooks/useForm";
 import { useAppDispatch } from "../../store/store";
 import "./login.css";
@@ -27,6 +27,8 @@ export const LoginScreen = () => {
 
   const handleLogoutSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    dispatch(startRegister(outName,outEmail,outPassword));
   };
 
   return (

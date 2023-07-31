@@ -25,3 +25,25 @@ export const startLogin = (email: string, password: string) => {
     }
   };
 };
+
+export const startRegister = (
+  name: string,
+  email: string,
+  password: string
+) => {
+  return async (dispatch: AppDispatch) => {
+    const resp = await fetchNoToken(
+      "auth/register",
+      { name, email, password },
+      "POST"
+    );
+
+    const body = await resp.json();
+
+    if (resp.ok) {
+      localStorage.setItem("token", body.token);
+      localStorage.setItem("token-init-time", new Date().getTime().toString());
+      dispatch(login(body.id, body.name));
+    }
+  };
+};
