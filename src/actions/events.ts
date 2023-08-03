@@ -1,4 +1,7 @@
-import { EventAction, MyEvent, types } from "../types/types";
+import { fetchWithToken } from "../helpers/fetch";
+import { AppDispatch } from "../store/store";
+import { EventAction, MyEvent, MyEventNet, types } from "../types/types";
+import Swal from "sweetalert2";
 
 export const addEvent = (event: MyEvent): EventAction => ({
   type: types.eventAdd,
@@ -24,3 +27,35 @@ export const deleteEvent = (): EventAction => ({
   type: types.eventDelete,
   payload: null,
 });
+
+export const startUpdateEvent = (id:number,event: MyEventNet) => {
+  return async (dispatch: AppDispatch) => {
+    const resp = await fetchWithToken(`event/${id}`, event, "PUT");
+
+    const body = await resp.json();
+
+    if (resp.ok) {
+      const { id } = body;
+
+      dispatch(updatedEvent({ ...event, id }));
+    } else {
+      Swal.fire("Error", body, "error");
+    }
+  };
+};
+
+export const startAddEvent = (event: MyEventNet) => {
+  return async (dispatch: AppDispatch) => {
+    const resp = await fetchWithToken("event", event, "POST");
+
+    const body = await resp.json();
+
+    if (resp.ok) {
+      const { id } = body;
+
+      dispatch(addEvent({ ...event, id }));
+    } else {
+      Swal.fire("Error", body, "error");
+    }
+  };
+};

@@ -28,20 +28,20 @@ export const fetchWithToken = (
   const url = `${baseUrl}/${endpoint}`;
 
   const token = localStorage.getItem("token") || "";
-
+  
   if (method === "GET") {
     return fetch(url, {
       method,
       headers: {
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
   } else {
     return fetch(url, {
       method,
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
-        "Authorization": `Barer ${token}`,
       },
       body: JSON.stringify(data),
     });
