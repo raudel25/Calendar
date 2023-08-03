@@ -23,9 +23,9 @@ export const updatedEvent = (event: MyEvent): EventAction => ({
   payload: { event },
 });
 
-export const deleteEvent = (): EventAction => ({
+export const deleteEvent = (event: MyEvent): EventAction => ({
   type: types.eventDelete,
-  payload: {},
+  payload: { event },
 });
 
 export const loadEvents = (events: Array<MyEvent>): EventAction => ({
@@ -82,6 +82,24 @@ export const startLoadEvents = () => {
 
       if (resp.ok) {
         dispatch(loadEvents(body));
+      } else {
+        Swal.fire("Error", body, "error");
+      }
+    } catch {
+      Swal.fire("Error", "Connection error", "error");
+    }
+  };
+};
+
+export const startDeleteEvent = (event: MyEvent) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const resp = await fetchWithToken(`event/${event.id}`, {}, "DELETE");
+
+      const body = await resp.json();
+
+      if (resp.ok) {
+        dispatch(deleteEvent(event));
       } else {
         Swal.fire("Error", body, "error");
       }
