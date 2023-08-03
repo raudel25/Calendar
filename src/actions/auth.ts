@@ -15,16 +15,27 @@ export const logout = (): AuthAction => ({
 
 export const startLogin = (email: string, password: string) => {
   return async (dispatch: AppDispatch) => {
-    const resp = await fetchNoToken("auth/login", { email, password }, "POST");
+    try {
+      const resp = await fetchNoToken(
+        "auth/login",
+        { email, password },
+        "POST"
+      );
 
-    const body = await resp.json();
+      const body = await resp.json();
 
-    if (resp.ok) {
-      localStorage.setItem("token", body.token);
-      localStorage.setItem("token-init-time", new Date().getTime().toString());
-      dispatch(login(body.id, body.name));
-    } else {
-      Swal.fire("Error", body.msg, "error");
+      if (resp.ok) {
+        localStorage.setItem("token", body.token);
+        localStorage.setItem(
+          "token-init-time",
+          new Date().getTime().toString()
+        );
+        dispatch(login(body.id, body.name));
+      } else {
+        Swal.fire("Error", body.msg, "error");
+      }
+    } catch {
+      Swal.fire("Error", "Connection error", "error");
     }
   };
 };
@@ -35,38 +46,52 @@ export const startRegister = (
   password: string
 ) => {
   return async (dispatch: AppDispatch) => {
-    const resp = await fetchNoToken(
-      "auth/register",
-      { name, email, password },
-      "POST"
-    );
+    try {
+      const resp = await fetchNoToken(
+        "auth/register",
+        { name, email, password },
+        "POST"
+      );
 
-    const body = await resp.json();
+      const body = await resp.json();
 
-    if (resp.ok) {
-      localStorage.setItem("token", body.token);
-      localStorage.setItem("token-init-time", new Date().getTime().toString());
-      dispatch(login(body.id, body.name));
-    } else {
-      Swal.fire("Error", body.msg, "error");
+      if (resp.ok) {
+        localStorage.setItem("token", body.token);
+        localStorage.setItem(
+          "token-init-time",
+          new Date().getTime().toString()
+        );
+        dispatch(login(body.id, body.name));
+      } else {
+        Swal.fire("Error", body.msg, "error");
+      }
+    } catch {
+      Swal.fire("Error", "Connection error", "error");
     }
   };
 };
 
 export const startChecking = () => {
   return async (dispatch: AppDispatch) => {
-    const resp = await fetchWithToken("auth/renew", {}, "GET");
+    try {
+      const resp = await fetchWithToken("auth/renew", {}, "GET");
 
-    if (resp.status === 401) return;
+      if (resp.status === 401) return;
 
-    const body = await resp.json();
+      const body = await resp.json();
 
-    if (resp.ok) {
-      localStorage.setItem("token", body.token);
-      localStorage.setItem("token-init-time", new Date().getTime().toString());
-      dispatch(login(body.id, body.name));
-    } else {
-      Swal.fire("Error", body.msg, "error");
+      if (resp.ok) {
+        localStorage.setItem("token", body.token);
+        localStorage.setItem(
+          "token-init-time",
+          new Date().getTime().toString()
+        );
+        dispatch(login(body.id, body.name));
+      } else {
+        Swal.fire("Error", body.msg, "error");
+      }
+    } catch {
+      Swal.fire("Error", "Connection error", "error");
     }
   };
 };

@@ -35,48 +35,58 @@ export const loadEvents = (events: Array<MyEvent>): EventAction => ({
 
 export const startUpdateEvent = (id: number, event: MyEventNet) => {
   return async (dispatch: AppDispatch) => {
-    const resp = await fetchWithToken(`event/${id}`, event, "PUT");
+    try {
+      const resp = await fetchWithToken(`event/${id}`, event, "PUT");
 
-    const body = await resp.json();
+      const body = await resp.json();
 
-    if (resp.ok) {
-      const { id } = body;
+      if (resp.ok) {
+        const { id } = body;
 
-      dispatch(updatedEvent({ ...event, id }));
-    } else {
-      Swal.fire("Error", body, "error");
+        dispatch(updatedEvent({ ...event, id }));
+      } else {
+        Swal.fire("Error", body, "error");
+      }
+    } catch {
+      Swal.fire("Error", "Connection error", "error");
     }
   };
 };
 
 export const startAddEvent = (event: MyEventNet) => {
   return async (dispatch: AppDispatch) => {
-    const resp = await fetchWithToken("event", event, "POST");
+    try {
+      const resp = await fetchWithToken("event", event, "POST");
 
-    const body = await resp.json();
+      const body = await resp.json();
 
-    if (resp.ok) {
-      const { id } = body;
+      if (resp.ok) {
+        const { id } = body;
 
-      dispatch(addEvent({ ...event, id }));
-    } else {
-      Swal.fire("Error", body, "error");
+        dispatch(addEvent({ ...event, id }));
+      } else {
+        Swal.fire("Error", body, "error");
+      }
+    } catch {
+      Swal.fire("Error", "Connection error", "error");
     }
   };
 };
 
 export const startLoadEvents = () => {
   return async (dispatch: AppDispatch) => {
-    const resp = await fetchWithToken("event", {}, "GET");
+    try {
+      const resp = await fetchWithToken("event", {}, "GET");
 
-    if (resp.status == 401) return;
+      const body = await resp.json();
 
-    const body = await resp.json();
-
-    if (resp.ok) {
-      dispatch(loadEvents(body));
-    } else {
-      Swal.fire("Error", body, "error");
+      if (resp.ok) {
+        dispatch(loadEvents(body));
+      } else {
+        Swal.fire("Error", body, "error");
+      }
+    } catch {
+      Swal.fire("Error", "Connection error", "error");
     }
   };
 };
