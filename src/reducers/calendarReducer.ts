@@ -10,7 +10,7 @@ export const calendarReducer = (
     case types.eventSetActive:
       return {
         ...state,
-        active: action.payload,
+        active: action.payload.event!,
       };
 
     case types.eventClearActive:
@@ -22,14 +22,14 @@ export const calendarReducer = (
     case types.eventAdd:
       return {
         ...state,
-        events: state.events.concat([action.payload!]),
+        events: state.events.concat([action.payload.event!]),
       };
 
     case types.eventUpdated:
       return {
         ...state,
         events: state.events.map((event) =>
-          event.id === action.payload!.id ? action.payload! : event
+          event.id === action.payload.event!.id ? action.payload.event! : event
         ),
       };
 
@@ -38,6 +38,12 @@ export const calendarReducer = (
         ...state,
         events: state.events.filter((event) => event.id !== state.active!.id),
         active: null,
+      };
+
+    case types.eventsLoad:
+      return {
+        ...state,
+        events: action.payload.events!,
       };
 
     default:

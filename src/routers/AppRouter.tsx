@@ -7,6 +7,7 @@ import { startChecking } from "../actions/auth";
 import { useSelector } from "react-redux";
 import PublicRoutes from "./PublicRoute";
 import PrivateRoutes from "./PrivateRoutes";
+import { startLoadEvents } from "../actions/events";
 
 export const AppRouter = () => {
   const dispatch = useAppDispatch();
@@ -20,6 +21,12 @@ export const AppRouter = () => {
 
     setChecking(false);
   }, [dispatch]);
+
+  useEffect(() => {
+    if (login) {
+      dispatch(startLoadEvents());
+    }
+  }, [login]);
 
   if (checking) return <h5>Wait...</h5>;
 

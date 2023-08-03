@@ -10,6 +10,7 @@ export const types = {
   eventClearActive: "[Event] Clear Active",
   eventUpdated: "[Event] Updated",
   eventDelete: "[Event] Delete",
+  eventsLoad:"[Events] Load"
 };
 
 export type MyEvent = {
@@ -33,7 +34,7 @@ export type MyEventNet = {
 
 export type EventState = { events: Array<MyEvent>; active: null | MyEvent };
 
-export type EventAction = { type: string; payload:  MyEvent | null };
+export type EventAction = { type: string; payload:  {events?:Array<MyEvent>, event?:MyEvent} };
 
 export type UiState = { openModal: boolean };
 

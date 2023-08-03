@@ -20,14 +20,6 @@ import { DeleteEventFab } from "../ui/DeleteEventFab";
 
 const localizer = momentLocalizer(moment);
 
-// const events: Array<MyEvent> = [
-//   {
-//     title: "AA",
-//     start: moment().toDate(),
-//     end: moment().add(2, "hours").toDate(),
-//   },
-// ];
-
 export const CalendarScreen = () => {
   const [lastView, setLastView] = useState<View>(
     (localStorage.getItem("lastView") as View) || "month"
@@ -35,9 +27,6 @@ export const CalendarScreen = () => {
 
   const eventStyleGetter: EventPropGetter<MyEvent> = (
     event,
-    start,
-    end,
-    isSelected
   ) => {
     let backgroundColor = "#f0f0f0";
     if (event.isImportant) {
